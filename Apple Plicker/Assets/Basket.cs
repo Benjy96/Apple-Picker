@@ -5,15 +5,6 @@ using UnityEngine.UI;
 
 public class Basket : MonoBehaviour {
 
-    public Text scoreText;
-
-    void Start()
-    {
-        // Find a reference to the ScoreCounter GameObject
-        scoreText = GameObject.Find("ScoreCounter").GetComponent<Text>();                  
-        // Set the starting number of points to 0
-        scoreText.text = "0";
-    }
 
     void Update ()
     {
@@ -36,16 +27,12 @@ public class Basket : MonoBehaviour {
     {
         // Find out what hit this basket
         if (coll.gameObject.tag == "Poo")
-        {                               
-            Destroy(coll.gameObject);
-        }
+        {
 
-        // Parse the text of the scoreGT into an int
-        int score = int.Parse(scoreText.text);                             
-        // Add points for catching the apple
-        score += 100;
-        // Convert the score back to a string and display it
-        scoreText.text = score.ToString();
+            GameManager gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+            gameManager.currentScore += 100;
+            Destroy(coll.gameObject);
+        }//if
 
     }
 }

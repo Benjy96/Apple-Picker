@@ -12,8 +12,10 @@ public class Poo : MonoBehaviour {
     {
         if (transform.position.y < bottomY)
         {
+            GameManager gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+            gameManager.PooDestroyed();
             Destroy(gameObject);
-            GameManager.instance.PooDestroyed();
+            
         }
     }//Update
 }
