@@ -10,11 +10,14 @@ public class Basket : MonoBehaviour {
     private void Start()
     {
         audio = gameObject.GetComponent<AudioSource>();
+
     }
 
     void Update ()
     {
-        #if UNITY_STANDALONE || UNITY_WEBPLAYER
+        
+
+#if UNITY_STANDALONE || UNITY_WEBPLAYER
 
         // Get the current screen position of the mouse from Input
         Vector3 mousePos2D = Input.mousePosition;                          
@@ -25,13 +28,15 @@ public class Basket : MonoBehaviour {
         // Convert the point from 2D screen space into 3D game world space
         Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D); 
 
-        // Move the x position of this Basket to the x position of the Mouse
+        //Move the x position of this Basket to the x position of the Mouse
         Vector3 pos = this.transform.position;
         pos.x = mousePos3D.x;
         this.transform.position = pos;
 
-        #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-                transform.Translate(Input.acceleration.x, 0, 0);
+#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        transform.Translate(Input.acceleration.x, 0, 0);
+        //have the basket stop one it reaches edge of screen
+
         #endif
     }
 
