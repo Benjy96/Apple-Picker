@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class Butt : MonoBehaviour {
 
-    // Prefab for instantiating poos
     public GameObject pooPrefab;
+    public GameObject fartParticles;
 
-    // Speed at which the AppleTree moves in meters/second
     public float speed = 1f;
-
-    // Distance where AppleTree turns around
-    public float leftAndRightEdge = 10f;
-
-    // Chance that the AppleTree will change directions
+    public float force = 400f;
     public float chanceToChangeDirections = 0.1f;
-
-    // Rate at which Apples will be instantiated
     public float secondsBetweenAppleDrops = 1f;
+
+    float randomNum;
+    AudioSource fartnoise; 
 
     void Start()
     {
+        fartnoise= gameObject.GetComponent<AudioSource>();
         // Dropping apples every second
         InvokeRepeating("DropApple", 2f, secondsBetweenAppleDrops);
     }//Start
 
     void Update()
     {
+        randomNum = Random.Range(-20, 20);
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
 
         //print("screen pos "+screenPos.x);
@@ -61,10 +59,13 @@ public class Butt : MonoBehaviour {
 
     void DropApple()
     {
-        GameObject apple = Instantiate(pooPrefab) as GameObject;
-        Rigidbody2D rb = apple.GetComponent<Rigidbody2D>();
-        rb.AddForce(apple.transform.forward * 200f);
-        apple.transform.position = transform.position;
+        Destroy(Instantiate(fartParticles, gameObject.transform.position, gameObject.transform.rotation) as GameObject, 2);
+        fartnoise.Play();
+        GameObject plop = Instantiate(pooPrefab, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+        Rigidbody2D rb = plop.GetComponent<Rigidbody2D>();
+        rb.AddForce(-plop.transform.up * force);
+        rb.AddTorque(randomNum);
+        
 
     }//DropApple
 
