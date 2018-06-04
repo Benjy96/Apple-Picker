@@ -1,14 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Basket : MonoBehaviour {
 
-    
     AudioSource audio;
-     
-
+    
     private void Start()
     {
         audio = gameObject.GetComponent<AudioSource>();
@@ -16,6 +14,8 @@ public class Basket : MonoBehaviour {
 
     void Update ()
     {
+        #if UNITY_STANDALONE || UNITY_WEBPLAYER
+
         // Get the current screen position of the mouse from Input
         Vector3 mousePos2D = Input.mousePosition;                          
 
@@ -30,7 +30,9 @@ public class Basket : MonoBehaviour {
         pos.x = mousePos3D.x;
         this.transform.position = pos;
 
-        transform.Translate(Input.acceleration.x, 0, 0);
+        #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+                transform.Translate(Input.acceleration.x, 0, 0);
+        #endif
     }
 
     void OnCollisionEnter2D(Collision2D coll)
