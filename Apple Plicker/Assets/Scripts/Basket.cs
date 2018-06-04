@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class Basket : MonoBehaviour {
 
+    AudioSource audio;
+
+    private void Start()
+    {
+        audio = gameObject.GetComponent<AudioSource>();
+    }
 
     void Update ()
     {
@@ -21,6 +27,8 @@ public class Basket : MonoBehaviour {
         Vector3 pos = this.transform.position;
         pos.x = mousePos3D.x;
         this.transform.position = pos;
+
+        transform.Translate(Input.acceleration.x, 0, 0);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -31,6 +39,7 @@ public class Basket : MonoBehaviour {
 
             GameManager gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
             gameManager.currentScore += 100;
+            audio.Play();
             Destroy(coll.gameObject);
         }//if
 

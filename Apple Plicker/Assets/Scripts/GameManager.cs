@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject basketPrefab;
     public GameObject gameOver;
+    public GameObject explosion;
     public List<GameObject> basketList;
     public Text scoreText;
     public Text highScoreText;
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour {
     public int currentScore;
     public float basketBottomY = -14f;
     public float basketSpacingY = 1f;
+
+    AudioSource audio;
 
 
     void Awake()
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        audio = gameObject.GetComponent<AudioSource>();
         scoreText = GameObject.Find("ScoreCounter").GetComponent<Text>();
         highScoreText = GameObject.Find("HighScore").GetComponent<Text>();
 
@@ -68,11 +72,13 @@ public class GameManager : MonoBehaviour {
 
 
     public void PooDestroyed()
-    {                                         
+    {
+       
         // Destroy all of the falling Poos
         GameObject[] pooArray = GameObject.FindGameObjectsWithTag("Poo");
         foreach (GameObject poo in pooArray)
         {
+            Destroy(Instantiate(explosion, poo.transform.position, poo.transform.rotation) as GameObject, 2);
             Destroy(poo);
         }//foreach
 
@@ -90,6 +96,10 @@ public class GameManager : MonoBehaviour {
         if (basketList.Count == 0)
         {
             GameOver();
+        }
+        else
+        {
+            audio.Play();
         }
     }
 

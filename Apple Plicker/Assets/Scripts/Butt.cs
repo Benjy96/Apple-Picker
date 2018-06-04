@@ -27,20 +27,26 @@ public class Butt : MonoBehaviour {
 
     void Update()
     {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+
+        //print("screen pos "+screenPos.x);
+        //print("Screen width " + Screen.width);
+
         // Basic Movement
         Vector3 pos = transform.position;
         pos.x += speed * Time.deltaTime;
         transform.position = pos;
 
         // Changing Direction
-        if (pos.x < -leftAndRightEdge)
+        if (screenPos.x < 0)
         {
             speed = Mathf.Abs(speed);  // Move right
         }
-        else if (pos.x > leftAndRightEdge)
+        else if (screenPos.x > Screen.width)
         {
             speed = -Mathf.Abs(speed); // Move left
         }
+        
 
     }//Update
 
@@ -56,7 +62,10 @@ public class Butt : MonoBehaviour {
     void DropApple()
     {
         GameObject apple = Instantiate(pooPrefab) as GameObject;
+        Rigidbody2D rb = apple.GetComponent<Rigidbody2D>();
+        rb.AddForce(apple.transform.forward * 200f);
         apple.transform.position = transform.position;
+
     }//DropApple
 
 

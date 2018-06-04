@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Poo : MonoBehaviour {
 
-    public static float bottomY = -20f;
+   
 
 
 
     void Update()
     {
-        if (transform.position.y < bottomY)
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+
+        if (screenPos.y < -1)
         {
             GameManager gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
             gameManager.PooDestroyed();
-            Destroy(gameObject);
-            
         }
     }//Update
 }
